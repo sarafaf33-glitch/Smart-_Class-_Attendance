@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ATI Sammanthurai Time Table</title>
+
+    <style>
+
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial,sans-serif;
+        }
+
+        /* BODY */
+        body {
+            background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 20px;
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+            .header h1 {
+                color: #00d4ff;
+                margin-bottom: 10px;
+            }
+
+        /* INFO */
+        .info {
+            margin-top: 15px;
+            line-height: 35px;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        /* TABLE CELLS */
+        th, td {
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* HEADERS */
+        th {
+            background: rgba(0,212,255,0.3);
+            color: white;
+        }
+
+        /* ROW EFFECT */
+        tr:nth-child(even) {
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* BREAK ROW */
+        .break {
+            background: rgba(255,165,0,0.3);
+            font-weight: bold;
+        }
+
+        /* BUTTON */
+        .btn {
+            margin-top: 25px;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: linear-gradient(45deg,#00d4ff,#7b2ff7);
+            color: white;
+            font-size: 16px;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:768px) {
+
+            th, td {
+                font-size: 12px;
+                padding: 8px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="header">
+
+            <h1>ADVANCED TECHNOLOGICAL INSTITUTE</h1>
+
+            <h2>SAMMANTHURAI</h2>
+
+            <h3>CLASS TIME TABLE</h3>
+
+            <p><b>Effective From :</b> 30/03/2026</p>
+
+            <div class="info">
+
+                <p><b>Course :</b> HND in Information Technology</p>
+
+                <p><b>Year :</b> First-Full Time</p>
+
+                <p><b>Semester :</b> 2024-2025 Second Semester</p>
+
+            </div>
+
+        </div>
+
+        <!-- TABLE -->
+        <table>
+
+            <tr>
+                <th>TIME</th>
+                <th>MONDAY</th>
+                <th>TUESDAY</th>
+                <th>WEDNESDAY</th>
+                <th>THURSDAY</th>
+                <th>FRIDAY</th>
+            </tr>
+
+            <tr>
+                <td>08.30 - 09.30</td>
+
+                <td>Principles of User Interface Design (T)</td>
+
+                <td>Fundamentals of Programming(PB) / Data Communication</td>
+
+                <td>Independent Learning</td>
+
+                <td>Data Communication and Computer Networks (T)</td>
+
+                <td>ICT Project (Group)</td>
+            </tr>
+
+            <tr>
+                <td>09.30 - 10.30</td>
+
+                <td>Principles of User Interface Design (T)</td>
+
+                <td>Fundamentals of Programming(PB) / Data Communication</td>
+
+                <td>Independent Learning</td>
+
+                <td>Data Communication and Computer Networks (T)</td>
+
+                <td>ICT Project (Group)</td>
+            </tr>
+
+            <tr>
+                <td>10.30 - 11.30</td>
+
+                <td>Software Development (PB)</td>
+
+                <td>Fundamentals of Programming(PA)</td>
+
+                <td>Independent Learning</td>
+
+                <td>Human Value & Professionalism</td>
+
+                <td>-</td>
+            </tr>
+
+            <tr>
+                <td>11.30 - 12.30</td>
+
+                <td>Software Development (PB)</td>
+
+                <td>Fundamentals of Programming(PA)</td>
+
+                <td>Independent Learning</td>
+
+                <td>Human Value & Professionalism</td>
+
+                <td>-</td>
+            </tr>
+
+            <!-- BREAK -->
+            <tr class="break">
+
+                <td>12.30 - 01.00</td>
+
+                <td colspan="5">INTERVAL</td>
+
+            </tr>
+
+            <tr>
+                <td>01.00 - 02.00</td>
+
+                <td>Software Development (PA)</td>
+
+                <td>Fundamentals of Programming(T)</td>
+
+                <td>ICT Project (Group)</td>
+
+                <td>System Analysis and Design</td>
+
+                <td>Library</td>
+            </tr>
+
+            <tr>
+                <td>02.00 - 03.00</td>
+
+                <td>Software Development (PA)</td>
+
+                <td>Fundamentals of Programming(T)</td>
+
+                <td>ICT Project (Group)</td>
+
+                <td>System Analysis and Design</td>
+
+                <td>Technical Writing</td>
+            </tr>
+
+            <tr>
+                <td>03.00 - 04.00</td>
+
+                <td>Software Development (T)</td>
+
+                <td>Fundamentals of Programming(PA)</td>
+
+                <td>Independent Learning</td>
+
+                <td>System Analysis and Design</td>
+
+                <td>Technical Writing</td>
+            </tr>
+
+            <tr>
+                <td>04.00 - 05.00</td>
+
+                <td>Software Development (T)</td>
+
+                <td>Fundamentals of Programming(PB)</td>
+
+                <td>Independent Learning</td>
+
+                <td>System Analysis and Design</td>
+
+                <td>Technical Writing</td>
+            </tr>
+
+        </table>
+
+        <!-- BUTTON -->
+        <div style="text-align:center;">
+
+            <button class="btn" onclick="goBack()">
+
+                Back to Dashboard
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+function goBack(){
+
+    window.location.href = "studentdashboard.html";
+
+}
+
+    </script>
+
+</body>
+</html>

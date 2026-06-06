@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner</title>
+
+    <style>
+
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* BACKGROUND */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d");
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        /* BOX */
+        .container {
+            width: 400px;
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        /* TITLE */
+        h1 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+        }
+
+        /* CAMERA BOX */
+        video {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid #00d4ff;
+        }
+
+        /* RESULT */
+        #result {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 10px;
+        }
+
+        /* BUTTON */
+        .btn {
+            margin-top: 15px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: linear-gradient(45deg,#00d4ff,#7b2ff7);
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>QR Scanner</h1>
+
+        <!-- CAMERA -->
+        <video id="video" autoplay></video>
+
+        <!-- RESULT -->
+        <div id="result">
+            Scan a QR Code...
+        </div>
+
+        <button class="btn" onclick="stopCamera()">
+            Stop Camera
+        </button>
+
+    </div>
+
+    <!-- QR LIBRARY -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <script>
+
+let video = document.getElementById("video");
+let resultBox = document.getElementById("result");
+let stream;
+
+// START CAMERA
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(function(s){
+    stream = s;
+    video.srcObject = stream;
+})
+.catch(function(err){
+    alert("Camera access denied!");
+});
+
+// SIMPLE QR SIMULATION (DEMO)
+function fakeScan(){
+    resultBox.innerHTML = "✅ Attendance Marked Successfully!";
+}
+
+// simulate scan every 5 sec (demo purpose)
+setInterval(fakeScan, 5000);
+
+// STOP CAMERA
+function stopCamera(){
+    if(stream){
+        stream.getTracks().forEach(track => track.stop());
+        alert("Camera Stopped");
+    }
+}
+
+    </script>
+
+</body>
+</html>
