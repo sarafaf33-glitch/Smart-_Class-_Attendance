@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Schedule Class</title>
+    <style>
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+       
+        .dashboard-container {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* TOP NAVIGATION CONTROL HEADER */
+        .top-navbar {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .page-title, .section-title {
+            color: #00b4d8;
+            margin-bottom: 20px;
+        }
+
+        .schedule-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        label {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        input, select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #00b4d8;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        select option {
+            background: #222;
+            color: #fff;
+        }
+
+        /* PRIMARY NAVIGATION BUTTON (BACK) */
+        .back-btn {
+            background: rgba(102, 14, 65, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            
+        }
+
+        /* TOP NAVIGATION CONTROL HEADER */
+        .top-navbar {
+           display: flex;
+           justify-content: flex-end; /* This pushes the button to the right side */
+           margin-bottom: 15px;
+}
+
+        .back-btn:hover {
+            background: #a10e69;
+            border-color: #167f94;
+            box-shadow: 0 0 10px rgba(0, 180, 216, 0.5);
+        }
+
+        /* SUBMIT SUB-ACTION BUTTON */
+        .submit-btn {
+            background-color: #0077b6;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #00b4d8;
+        }
+
+        .cancel-btn {
+            background-color: #a10e69;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background-color: #a10e69;
+        }
+
+        .divider {
+            border: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 40px 0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .schedule-table th, .schedule-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-table th {
+            background-color: rgba(0, 180, 216, 0.2);
+            color: #00b4d8;
+        }
+
+        .schedule-table tr {
+            transition: opacity 0.3s ease;
+        }
+
+        .schedule-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <div class="top-navbar">
+            <a href="Lecture Dashboard.html">
+            <button class="back-btn" onclick="goBack()">Back </button>
+            </a>
+        </div>
+        
+        <h2 class="page-title">📅 Schedule a New Class</h2>
+        
+        <form class="schedule-form" id="classForm">
+            <div class="form-group">
+                <label for="subject">Subject / Module Name</label>
+                <select id="subject" required>
+                    <option value="" disabled selected>Select Subject</option>
+                    <option value="Computer Science (CS101)">Computer Science (CS101)</option>
+                    <option value="Advanced Mathematics (MATH202)">Advanced Mathematics (MATH202)</option>
+                    <option value="Software Engineering (ENG104)">Software Engineering (ENG104)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="batch">Batch / Semester</label>
+                <select id="batch" required>
+                    <option value="" disabled selected>Select Batch</option>
+                    <option value="2024 Batch - Semester 1">2024 Batch - Semester 1</option>
+                    <option value="2025 Batch - Semester 2">2025 Batch - Semester 2</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="start-time">Start Time</label>
+                    <input type="time" id="start-time" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="end-time">End Time</label>
+                    <input type="time" id="end-time" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Classroom / Hall / Online Link</label>
+                <input type="text" id="location" placeholder="e.g., Lab 03, Hall B, or Zoom Link" required>
+            </div>
+
+            <button type="submit" class="submit-btn">📅 Schedule Class</button>
+        </form>
+
+        <hr class="divider">
+
+        <h3 class="section-title">Upcoming Scheduled Classes</h3>
+        <div class="table-container">
+            <table class="schedule-table" id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Batch</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Location</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Computer Science (CS101)</td>
+                        <td>2024 Batch - Semester 1</td>
+                        <td>2026-06-10</td>
+                        <td>09:00 AM - 11:00 AM</td>
+                        <td>Lab 03</td>
+                        <td><button class="cancel-btn">Cancel</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        const classForm = document.getElementById('classForm');
+        const tableBody = document.querySelector('#scheduleTable tbody');
+
+        /* ROUTING FUNCTION TO RETURN BACK TO MAIN INTERFACE */
+        function goBack() {
+            window.location.href = "lecturer-dashboard.html";
+        }
+
+        classForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevents active page reloading sequence
+
+            const subject = document.getElementById('subject').value;
+            const batch = document.getElementById('batch').value;
+            const date = document.getElementById('date').value;
+            const startTime = document.getElementById('start-time').value;
+            const endTime = document.getElementById('end-time').value;
+            const location = document.getElementById('location').value;
+
+            const timeDuration = `${startTime} - ${endTime}`;
+
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${subject}</td>
+                <td>${batch}</td>
+                <td>${date}</td>
+                <td>${timeDuration}</td>
+                <td>${location}</td>
+                <td><button class="cancel-btn">Cancel</button></td>
+            `;
+
+            tableBody.appendChild(newRow);
+
+            classForm.reset();
+        });
+
+        tableBody.addEventListener('click', function(event) {
+            if (event.target.classList.contains('cancel-btn')) {
+                const confirmCancel = confirm("Are you sure you want to cancel this class?");
+                if (confirmCancel) {
+                    const row = event.target.closest('tr');
+                    row.style.opacity = '0';
+                    setTimeout(() => {
+                        row.remove();
+                    }, 300);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Generate QR - Attendance System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <style>
+        /* CSS Styling */
+        body {
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+                url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d");
+
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+        }
+
+        .qr-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h2 {
+            color: #142121;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .gen-btn {
+            background-color: #afe5fa; /* Orange color from your image */
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .gen-btn:hover {
+            background-color: #9bd5fc;
+        }
+
+        #qrcode {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            background: white; /* QR needs a white background to be scanable */
+            border-radius: 10px;
+            display: none; /* Hidden until generated */
+        }
+
+       .btn{
+            margin-top:20px;
+            padding:10px 15px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            background:linear-gradient(45deg,#00d4ff,#7b2ff7);
+            color:white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="qr-container">
+        <h2>QR Code Generator</h2>
+        
+        <input type="text" id="qr-data" placeholder="Enter Class Code or Subject Name">
+        
+        <button class="gen-btn" onclick="generateQR()">Generate QR Code</button>
+
+        <div id="qrcode"></div>
+   
+        <a href="Lecture Dashboard.html">
+        <button class="btn" onclick="goBack()">
+            Back to Dashboard
+        </button>
+        </a>
+    </div>
+
+    <script>
+        // JavaScript Logic
+        function generateQR() {
+            const data = document.getElementById('qr-data').value;
+            const qrContainer = document.getElementById('qrcode');
+            
+            if (data.trim() === "") {
+                alert("Please enter some text!");
+                return;
+            }
+
+            // Clear previous QR code
+            qrContainer.innerHTML = "";
+            qrContainer.style.display = "flex";
+
+            // Generate New QR
+            new QRCode(qrContainer, {
+                text: data,
+                width: 200,
+                height: 200,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+    </script>
+
+</body>
+</html>

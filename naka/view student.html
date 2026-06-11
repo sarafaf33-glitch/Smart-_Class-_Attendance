@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>View Students</title>
+
+<style>
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+/* BACKGROUND */
+body{
+    background:
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+    url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d");
+
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+/* CONTAINER */
+.container{
+    padding:50px;
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    margin-bottom:30px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    padding:20px;
+    border-radius:15px;
+}
+
+.header h1{
+    color:#00d4ff;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    border-radius:15px;
+    overflow:hidden;
+}
+
+th, td{
+    padding:15px;
+    text-align:center;
+}
+
+th{
+    background:rgba(0,212,255,0.3);
+}
+
+tr:nth-child(even){
+    background:rgba(255,255,255,0.05);
+}
+
+/* STATUS */
+.present{
+    color:lightgreen;
+    font-weight:bold;
+}
+
+.absent{
+    color:#ff4d4d;
+    font-weight:bold;
+}
+
+/* BUTTON */
+.btn{
+    margin-top:20px;
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:linear-gradient(45deg,#00d4ff,#7b2ff7);
+    color:white;
+}
+
+/* SEARCH */
+.search{
+    width:100%;
+    padding:12px;
+    margin-bottom:20px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Student Attendance List 👨‍🏫</h1>
+        <p>View all students in class</p>
+    </div>
+
+    <input type="text" class="search" placeholder="Search student..." onkeyup="searchStudent(this.value)">
+
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Reg No</th>
+                <th>Course</th>
+                <th>Attendance</th>
+            </tr>
+        </thead>
+        
+        <tbody id="attendanceBody">
+            </tbody>
+    </table>
+
+    <div style="text-align:center; margin-top: 20px;">
+        <a href="Lecture Dashboard.html">
+        <button class="btn" onclick="goBack()">
+            Back to Dashboard
+        </button></a>
+    </div>
+
+</div>
+
+<script>
+
+/* MOCK DATABASE (Simulating student master records) */
+const studentDatabase = {
+    "2021001": { name: "John", course: "Java", status: "Present" },
+    "2021002": { name: "Mary", course: "Java", status: "Absent" },
+    "2021003": { name: "David", course: "Web Dev", status: "Present" },
+    "2021004": { name: "Ravi", course: "Database", status: "Present" }
+};
+
+/* ARRAY TO TRACK SUCCESSFULLY SCANNED STUDENTS */
+let scannedStudents = [];
+
+/**
+ * Trigger this function when your QR Scanner successfully scans a registration number.
+ * You can test this manually in your browser Console by typing: handleQRScan('2021001')
+ */
+function handleQRScan(regNo) {
+    
+    // 1. Check if the student has already been scanned to avoid duplicate entries
+    const isAlreadyScanned = scannedStudents.some(student => student.regNo === regNo);
+    if (isAlreadyScanned) {
+        alert("This student has already been scanned!");
+        return;
+    }
+
+    // 2. Fetch the student profile from your data source using the scanned registration number
+    const studentInfo = studentDatabase[regNo];
+
+    if (studentInfo) {
+        // Add the scanned student data to our tracking list
+        scannedStudents.push({
+            regNo: regNo,
+            name: studentInfo.name,
+            course: studentInfo.course,
+            status: studentInfo.status
+        });
+
+        // Refresh and display the updated list in the UI table
+        renderAttendanceTable();
+    } else {
+        alert("Student record not found in the database!");
+    }
+}
+
+/* RENDER ROWS DYNAMICALLY */
+function renderAttendanceTable() {
+    const tbody = document.getElementById("attendanceBody");
+    tbody.innerHTML = ""; // Clear existing table structure before re-rendering
+
+    scannedStudents.forEach(student => {
+        const row = document.createElement("tr");
+
+        // Determine the CSS class based on attendance value
+        const statusClass = student.status.toLowerCase() === "present" ? "present" : "absent";
+
+        row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${student.regNo}</td>
+            <td>${student.course}</td>
+            <td class="${statusClass}">${student.status}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+/* NAVIGATION */
+function goBack(){
+    window.location.href = "Lecturer Dashboard.html";
+}
+
+/* REAL-TIME FILTER/SEARCH FUNCTION */
+function searchStudent(value){
+    let tbody = document.getElementById("attendanceBody");
+    let tr = tbody.getElementsByTagName("tr");
+
+    for(let i=0; i<tr.length; i++){
+        let nameColumn = tr[i].getElementsByTagName("td")[0];
+        if(nameColumn){
+            let textValue = nameColumn.textContent || nameColumn.innerText;
+            if(textValue.toLowerCase().indexOf(value.toLowerCase()) > -1){
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
+</script>
+
+</body>
+</html>
