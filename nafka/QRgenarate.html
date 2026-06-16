@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate QR - Attendance System</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        body {
+            background: 
+                linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), 
+                url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d");
+            background-size: cover;
+            background-position: center;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+        }
+
+        .qr-container {
+            background-color: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        /* Dropdown உள்ளே இருக்கும் எழுத்துக்கள் கருப்பாக தெரிய */
+        select option {
+            color: black;
+        }
+
+        .gen-btn {
+            background: #00c6ff;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .gen-btn:hover {
+            background: #0099cc;
+        }
+
+        #qrcode {
+            margin-top: 20px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: linear-gradient(45deg,#00d4ff,#7b2ff7);
+            color: white;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="qr-container">
+
+    <h2>QR Code Generator</h2>
+
+    <input type="text" id="searchSubject" placeholder="Search Subject (e.g., VAP)...">
+
+    <select id="subjectSelect">
+        <option value="">-- Select Subject --</option>
+        
+        <option value="VAP101">Visual Application Programming (VAP)</option>
+        <option value="DBMS202">Database Management System (DBMS)</option>
+        <option value="DSA303">Data Structures & Algorithms (DSA)</option>
+
+        <?php 
+        if(isset($result) && $result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) { 
+            ?>
+                <option value="<?php echo $row['subject_code']; ?>">
+                    <?php echo $row['subject_name']; ?> (<?php echo $row['subject_code']; ?>)
+                </option>
+            <?php 
+            }
+        } 
+        ?>
+    </select>
+
+    <button class="gen-btn" onclick="generateQR()">
+        Generate QR Code
+    </button>
+
+    <div id="qrcode"></div>
+
+    <br>
+    <a href="Lecture Dashboard.html" style="text-decoration: none;">
+        <button class="btn">Back to Dashboard</button>
+    </a>
+
+</div>
+
+<script>
+// 1. Search Subject - டைப் செய்யும்போது சப்ஜெக்ட்களை பில்டர் செய்யும் வசதி
+document.getElementById("searchSubject").addEventListener("keyup", function() {
+    let filter = this.value.toLowerCase();
+    let select = document.getElementById("subjectSelect");
+    let options = select.options;
+
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === "") continue; // முதலாவது Default ஆப்ஷனை மறைக்காது
+
+        let txt = options[i].text.toLowerCase();
+        
+        // பிரவுசர் குறைபாடுகள் இல்லாமல் இருக்க display, disabled, hidden மூன்றும் பயன்படுத்தப்பட்டுள்ளது
+        if (txt.includes(filter)) {
+            options[i].style.display = "";
+            options[i].disabled = false;
+            options[i].hidden = false;
+        } else {
+            options[i].style.display = "none";
+            options[i].disabled = true;
+            options[i].hidden = true;
+        }
+    }
+});
+
+// 2. Generate Specific QR - க்ளிக் செய்த சப்ஜெக்ட்டிற்கு QR Code உருவாக்கும் வசதி
+function generateQR() {
+    let subjectSelect = document.getElementById("subjectSelect");
+    let subjectCode = subjectSelect.value;
+
+    // சப்ஜெக்ட் எதையும் தேர்ந்தெடுக்கவில்லை என்றால் எச்சரிக்கும்
+    if (subjectCode === "") {
+        alert("Please select a subject (e.g., VAP) from the dropdown!");
+        return;
+    }
+
+    let qrContainer = document.getElementById("qrcode");
+    
+    // தற்போதைய தேதி மற்றும் நேரத்தை எடுத்தல்
+    let now = new Date();
+    let date = now.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    let time = now.toTimeString().split(' ')[0]; // Format: HH:MM:SS
+
+    // நீங்கள் VAP-ஐ க்ளிக் செய்தால் QR Data: "VAP101|2026-06-15|16:03:02" என்று மாறும்
+    let qrData = subjectCode + "|" + date + "|" + time;
+
+    // பழைய QR கோட் ஏதும் இருந்தால் அதை முதலில் அழிக்கும்
+    qrContainer.innerHTML = "";
+    qrContainer.style.display = "flex";
+
+    // புதிய பிரத்தியேக QR Code-ஐ உருவாக்குகிறது
+    new QRCode(qrContainer, {
+        text: qrData,
+        width: 220,
+        height: 220,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+
+    console.log("Generated Data for Scanning:", qrData);
+}
+</script>
+
+</body>
+</html>

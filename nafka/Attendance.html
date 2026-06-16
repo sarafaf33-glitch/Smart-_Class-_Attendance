@@ -1,0 +1,222 @@
+0<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Attendance Reports</title>
+
+<style>
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+/* BACKGROUND */
+body{
+    background:
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+    url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d");
+
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+/* CONTAINER */
+.container{
+    padding:50px;
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    margin-bottom:30px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    padding:20px;
+    border-radius:15px;
+}
+
+.header h1{
+    color:#00d4ff;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    border-radius:15px;
+    overflow:hidden;
+}
+
+th, td{
+    padding:15px;
+    text-align:center;
+}
+
+th{
+    background:rgba(0,212,255,0.3);
+}
+
+tr:nth-child(even){
+    background:rgba(255,255,255,0.05);
+}
+
+/* STATUS COLORS */
+.good{
+    color:lightgreen;
+    font-weight:bold;
+}
+
+.avg{
+    color:orange;
+    font-weight:bold;
+}
+
+.low{
+    color:#ff4d4d;
+    font-weight:bold;
+}
+
+/* BUTTON */
+.btn{
+    margin-top:20px;
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:linear-gradient(45deg,#00d4ff,#7b2ff7);
+    color:white;
+}
+
+/* DEMO STATE MESSAGE STYLE */
+.info-msg {
+    color: #00d4ff;
+    font-style: italic;
+    font-size: 16px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>📊 Attendance Reports</h1>
+        <p>Student performance overview</p>
+    </div>
+
+    <!-- TABLE -->
+    <table id="reportTable">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Reg No</th>
+                <th>Java</th>
+                <th>Web Dev</th>
+                <th>DBMS</th>
+                <th>Total %</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="reportDataBody">
+            <!-- Initial static row before database or mock data connection -->
+            <tr id="initialRow">
+                <td colspan="7" class="info-msg">No active database connection. Displaying dynamic demo state...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+    <!-- BACK TO DASHBOARD -->
+    <div style="text-align:center; margin-top: 20px;">
+        <button class="btn" onclick="goBack()">
+            Back to Dashboard
+        </button>
+    </div>
+
+</div>
+
+<script>
+
+/* MOCK DATABASE DATA 
+   (This data is stored here but won't show until connection simulation is triggered)
+*/
+const mockDatabaseRecords = [
+    { name: "John", regNo: "2021001", java: 80, webDev: 75, dbms: 70 },
+    { name: "Mary", regNo: "2021002", java: 60, webDev: 55, dbms: 50 },
+    { name: "David", regNo: "2021003", java: 40, webDev: 45, dbms: 50 },
+    { name: "Ravi", regNo: "2021004", java: 90, webDev: 85, dbms: 88 }
+];
+
+/* FUNCTION TO CLEAR TABLE AND SHOW INITIAL DEMO/EMPTY STATE (Before Backend) */
+function clearTableToInitialState() {
+    const tbody = document.getElementById("reportDataBody");
+    tbody.innerHTML = `
+        <tr id="initialRow">
+            <td colspan="7" class="info-msg">No active database connection. Displaying dynamic demo state...</td>
+        </tr>
+    `;
+}
+
+/* FUNCTION TO SIMULATE DATABASE FETCH SUCCESS (After Backend) */
+function simulateDatabaseFetch() {
+    // Calling the processing renderer engine using our mock data array
+    generateAttendanceReport(mockDatabaseRecords);
+}
+
+/* REPORT GENERATION AND RENDER ENGINE */
+function generateAttendanceReport(dataArray) {
+    const tbody = document.getElementById("reportDataBody");
+    tbody.innerHTML = ""; // Removes the "No Database Connection" placeholder text row
+
+    dataArray.forEach(student => {
+        // Calculate Total Average Percentage dynamically
+        const totalPercentage = Math.round((student.java + student.webDev + student.dbms) / 3);
+        
+        // Evaluate Status Criteria and CSS Classes dynamically
+        let performanceStatus = "";
+        let statusClass = "";
+
+        if (totalPercentage >= 75) {
+            performanceStatus = "Good";
+            statusClass = "good";
+        } else if (totalPercentage >= 50) {
+            performanceStatus = "Average";
+            statusClass = "avg";
+        } else {
+            performanceStatus = "Low";
+            statusClass = "low";
+        }
+
+        // Create HTML table row dynamically
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${student.regNo}</td>
+            <td>${student.java}%</td>
+            <td>${student.webDev}%</td>
+            <td>${student.dbms}%</td>
+            <td>${totalPercentage}%</td>
+            <td class="${statusClass}">${performanceStatus}</td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+}
+
+/* NAVIGATION PATH CONTROLLER */
+function goBack(){
+    window.location.href = "Lecture Dashboard.html";
+}
+
+</script>
+
+</body>
+</html>
