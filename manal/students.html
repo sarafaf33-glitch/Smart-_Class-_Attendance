@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Manage Students</title>
+
+<style>
+
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+/* BODY */
+body{
+
+    background:
+    linear-gradient(rgba(0,0,0,0.7),
+    rgba(0,0,0,0.7)),
+
+    url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d");
+
+    background-size:cover;
+    background-position:center;
+
+    color:white;
+}
+
+/* NAVBAR */
+.navbar{
+
+    width:100%;
+    padding:20px 50px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+}
+
+.logo{
+
+    font-size:25px;
+    font-weight:bold;
+    color:#00d4ff;
+}
+
+.back-btn{
+
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+
+    background:#ff4d4d;
+    color:white;
+
+    cursor:pointer;
+}
+
+/* CONTAINER */
+.container{
+    padding:50px;
+}
+
+/* CARD */
+.card{
+
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+
+    padding:25px;
+    border-radius:15px;
+
+    margin-bottom:30px;
+}
+
+.card h2{
+
+    color:#00d4ff;
+    margin-bottom:20px;
+}
+
+/* INPUT */
+input{
+
+    width:100%;
+    padding:12px;
+
+    margin-bottom:15px;
+
+    border:none;
+    border-radius:10px;
+    outline:none;
+}
+
+/* BUTTON */
+.btn{
+
+    padding:10px 18px;
+
+    border:none;
+    border-radius:8px;
+
+    cursor:pointer;
+
+    background:
+    linear-gradient(45deg,#00d4ff,#7b2ff7);
+
+    color:white;
+}
+
+/* TABLE */
+table{
+
+    width:100%;
+    border-collapse:collapse;
+
+    margin-top:20px;
+}
+
+th,td{
+
+    padding:15px;
+    text-align:center;
+}
+
+th{
+    background:rgba(0,212,255,0.3);
+}
+
+tr:nth-child(even){
+    background:rgba(255,255,255,0.05);
+}
+
+/* ACTION */
+.edit{
+    background:orange;
+}
+
+.delete{
+    background:#ff4d4d;
+}
+
+/* TOTAL */
+.total-box{
+
+    margin-top:20px;
+
+    background:rgba(0,212,255,0.2);
+
+    padding:15px;
+    border-radius:10px;
+
+    text-align:center;
+
+    font-size:20px;
+    font-weight:bold;
+
+    color:#00d4ff;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div class="logo">
+        Manage Students
+    </div>
+
+    <button class="back-btn"
+    onclick="goBack()">
+        Back
+    </button>
+
+</div>
+
+    <!-- STUDENT TABLE -->
+    <div class="card">
+
+        <h2>👨‍🎓 Student List</h2>
+
+        <table id="studentTable">
+
+            <tr>
+
+                <th>Name</th>
+                <th>Reg No</th>
+                <th>Actions</th>
+
+        </table>
+
+        <!-- TOTAL -->
+        <div class="total-box">
+    Total Students : <span id="totalStudents">0</span>
+</div>
+<script>
+
+/* TOTAL */
+let total = 0;
+
+/* ADD STUDENT */
+function addStudent(){
+
+    let name =
+    document.getElementById("name").value;
+
+    let reg =
+    document.getElementById("reg").value;
+
+    let course =
+    document.getElementById("course").value;
+
+    if(name==="" ||
+       reg==="" ||
+       course===""){
+
+        alert("Please fill all fields");
+
+        return;
+    }
+
+    let table =
+    document.getElementById("studentTable");
+
+    let row =
+    table.insertRow();
+
+    row.innerHTML =
+
+    "<td>"+name+"</td>" +
+
+    "<td>"+reg+"</td>" +
+
+    "<td>"+course+"</td>" +
+
+    "<td>" +
+
+    "<button class='btn edit'>Edit</button> " +
+
+    "<button class='btn delete' onclick='deleteRow(this)'>Delete</button>" +
+
+    "</td>";
+
+    /* TOTAL UPDATE */
+    total++;
+
+    document.getElementById("totalStudents")
+    .innerHTML = total;
+
+    /* CLEAR INPUT */
+    document.getElementById("name").value="";
+    document.getElementById("reg").value="";
+    document.getElementById("course").value="";
+
+}
+
+/* DELETE */
+function deleteRow(btn){
+
+    let row =
+    btn.parentNode.parentNode;
+
+    row.parentNode.removeChild(row);
+
+    total--;
+
+    document.getElementById("totalStudents")
+    .innerHTML = total;
+}
+
+/* BACK */
+function goBack(){
+
+    window.location.href =
+    "admim.html";
+}
+
+</script>
+
+</body>
+</html>
